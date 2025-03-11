@@ -1,0 +1,49 @@
+0.632   2021-08-10  Released-By: PERLANCAR; Urgency: medium
+
+	- Delete the lock file upon unlock even if it was not created by
+	  us; this cleans up the lock file if our previous locking process
+	  was killed (GH#1).
+
+
+0.631   2019-03-12  Released-By: PERLANCAR
+
+	- Add method: handle().
+
+	- Add lock() option: mode.
+
+	- [doc] Mention sysopen() with O_CREAT|O_EXCL as an alternative to
+	  flock().
+
+
+0.630   2019-03-12  Released-By: PERLANCAR
+
+	- No functional changes.
+
+	- [doc] Expand on why File::Flock is too heavyweight.
+
+	- [doc] Note about lock file removal in unlock() documentation,
+	  some POD formatting to make methods more linkable.
+
+
+0.62    2017-07-01  Released-By: PERLANCAR
+
+        - [doc] Format link with L<>.
+
+
+0.61    2015-10-22  Released-By: PERLANCAR
+
+        - Add option: shared.
+
+
+0.60    2015-09-03  Released-By: PERLANCAR
+
+	- No functional changes.
+
+	- [dist] Move spec prereqs from RuntimeRequires to
+	  DevelopRecommends to reduce deps but still allow indicating spec
+	  requirement.
+
+
+0.59    2014-12-05  Released-By: PERLANCAR
+
+        - Split from SHARYANTO-File-Util and renamed to File-Flock-Retry.
