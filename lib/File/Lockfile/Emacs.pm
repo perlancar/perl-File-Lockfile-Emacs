@@ -114,7 +114,8 @@ the same process as us.
 
 Will return 409 if target file is already locked using Emacs-style lockfile by
 another process (unless when `force` option is set to true, in which case will
-take over the lock).
+take over the lock). Note that there are race conditions when using the `force`
+option (between checking that the lockfile, unlinking it, and creating our own).
 
 Will return 500 if there's an error in reading the lockfile.
 
@@ -160,6 +161,10 @@ sub emacs_lockfile_lock {
 
     if ($new_lockinfo->{pid} != $old_lockinfo->{pid}) {
         if ($force) {
+            # note that there are race conditions between checking existing lock
+            # above, unlinking it, and creating the new lock. Thus it's not
+            # really recommended to use the `force` option.
+
             # unlock this old lockfile
             unlink $lockfile_path or return [500, "Can't remove old lockfile '$lockfile_path': $!"];
             goto L1;
@@ -227,6 +232,9 @@ sub emacs_lockfile_unlock {
 
     return [412, "Target file does not exist"] if !$force && !(-f $target_file);
     my $lockinfo = _read_lockfile($target_file);
+
+    # TODO: Note that there is a race condition between reading the lockfile and
+    # unlinking it.
 
     return [304, "Target file was not unlocked"] unless $lockinfo->{exists};
 
