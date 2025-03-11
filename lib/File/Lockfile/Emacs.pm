@@ -199,9 +199,7 @@ $SPEC{emacs_lockfile_unlock} = {
     summary => "Unlock a file locked with Emacs-style lockfile",
     args => {
         %argspec0_target_file,
-        force => {
-            bool => 1,
-        },
+        %argspecopt_force,
     },
     description => <<'MARKDOWN',
 
@@ -306,9 +304,6 @@ From Emacs documentation:
   since the last reboot. `:boot` is omitted if the boot time is unavailable. (On
   file systems that do not support symbolic links, a regular file is used
   instead, with contents of the form `user@host.pid:boot`.)
-
-
-=head1 FUNCTIONS
 
 
 =head1 SEE ALSO
