@@ -31,7 +31,10 @@ our %argspec0_target_file = (
 );
 
 our %argspecopt_force = (
-    force => { schema => 'bool*' },
+    force => {
+        schema => 'bool*',
+        cmdline_aliases => {f=>{}},
+    },
 );
 
 sub _lockfile_path {
