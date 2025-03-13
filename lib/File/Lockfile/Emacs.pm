@@ -119,6 +119,7 @@ Will return 409 if target file is already locked using Emacs-style lockfile by
 another process (unless when `force` option is set to true, in which case will
 take over the lock). Note that there are race conditions when using the `force`
 option (between checking that the lockfile, unlinking it, and creating our own).
+It is not recommended to use the `force` option.
 
 Will return 500 if there's an error in reading the lockfile.
 
@@ -211,6 +212,9 @@ $SPEC{emacs_lockfile_unlock} = {
     },
     description => <<'MARKDOWN',
 
+Note that there is a race condition between reading the lockfile and unlinking
+it.
+
 Will return 412 if target file does not exist (unless `force` option is set to
 true, in which case we proceed to unlocking anyway).
 
@@ -235,9 +239,6 @@ sub emacs_lockfile_unlock {
 
     return [412, "Target file does not exist"] if !$force && !(-f $target_file);
     my $lockinfo = _read_lockfile($target_file);
-
-    # TODO: Note that there is a race condition between reading the lockfile and
-    # unlinking it.
 
     return [304, "Target file was not unlocked"] unless $lockinfo->{exists};
 
